@@ -1,7 +1,7 @@
-import type { productWCategory } from "../../../types/product.types";
+import type { productWCategory } from "../../types/product.types";
 
 type Props = {
-  products: productWCategory[];
+    products: productWCategory[];
 };
 
 export default function ProductsGrid({ products }: Props) {
@@ -18,6 +18,9 @@ export default function ProductsGrid({ products }: Props) {
                                 src={`https://picsum.photos/id/${product.id}/300/200`}
                                 alt={product.name}
                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                onError={(e) => {
+                                    e.currentTarget.src = "/noimage.png";
+                                }}
                             />
                             <button className="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center shadow-lg active:scale-90 transition-transform">
                                 <span className="material-symbols-outlined text-[20px]">

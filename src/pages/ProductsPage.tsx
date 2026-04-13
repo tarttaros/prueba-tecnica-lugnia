@@ -1,15 +1,26 @@
+import type { category } from "../types/category.types"
 import { useProducts } from "../hooks/useProducts"
 import { useCategories } from "../hooks/useCategories"
-import { useState } from "react"
-import type { productWCategory } from "../types/product.types"
-import type { category } from "../types/category.types"
-import ProductsGrid from "../components/layout/products/ProductsGrid"
+import { useEffect, useState } from "react"
+import ProductsGrid from "../components/products/ProductsGrid"
 import Loading from "../components/layout/Loading"
+import Searchbar from "../components/layout/Searchbar"
+import CategoryChips from "../components/layout/CategoryChips"
 
 export default function ProductsPage() {
-    const { products, loading, error } = useProducts() as { products: productWCategory[], loading: boolean, error: string }
+    const { products, loading } = useProducts()
     const { categories } = useCategories() as { categories: category[] }
     const [activeCategory, setActiveCategory] = useState('All Items');
+    const [search, setSearch] = useState("");
+    const [page, setPage] = useState(1);
+    const pageSize = 8;
+
+    /*Usado para reiniciar el paginador
+    pero puede generar re render*/
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setPage(1);
+    }, [activeCategory, search]);
 
     if (loading) {
         return (
@@ -17,45 +28,56 @@ export default function ProductsPage() {
         )
     }
 
-    if (error) {
-        return (
-            <div>Ocurrió un error: {error}</div>
-        )
-    }
+    const filteredProducts = products.filter((p) => {
+        const matchesCategory =
+            activeCategory === "All Items" ||
+            p.category.title === activeCategory;
 
-    const filteredProducts =
-        activeCategory === "All Items"
-            ? products
-            : products.filter((p) => p.category.title === activeCategory);
+        const matchesSearch =
+            p.name.toLowerCase()
+                .includes(search
+                    .toLowerCase());
+
+        return matchesCategory && matchesSearch;
+    });
+
+    const paginatedProducts = filteredProducts.slice(
+        (page - 1) * pageSize,
+        page * pageSize
+    );
+
+    const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
     return (
         <div className="font-sans bg-background text-on-surface min-h-screen" >
             <main className="pt-24 pb-32 px-6 max-w-2xl mx-auto">
-                {/*Search Section*/}
-                <section className="mb-8">
-                    <div className="relative group">
-                        <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-outline">
-                            <span className="material-symbols-outlined text-[20px]" data-icon="search">search</span>
-                        </div>
-                        <input className="w-full h-14 bg-surface-container-highest border-none rounded-2xl pl-12 pr-4 text-on-surface-variant focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline/60" placeholder="Search product..." type="text" />
-                    </div>
-                </section>
-                {/*Category Chips*/}
-                <div className="flex gap-3 overflow-x-auto no-scrollbar mb-8 -mx-6 px-6 ">
-                    {categories.map((categories) => (
-                        <button
-                            key={categories.id}
-                            onClick={() => setActiveCategory(categories.title)}
-                            className={`px-5 py-2.5 rounded-full font-bold text-sm whitespace-nowrap transition-all duration-300 ${activeCategory === categories.title
-                                ? 'bg-primary text-on-primary shadow-sm shadow-primary/20'
-                                : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest'
-                                }`}
-                        >
-                            {categories.title}
-                        </button>
-                    ))}
+                <Searchbar onSearch={setSearch} />
+                <CategoryChips
+                    categories={categories}
+                    activeCategory={activeCategory}
+                    setActiveCategory={setActiveCategory} />
+                <ProductsGrid products={paginatedProducts} />
+                <div className="flex justify-center space-x-2 mt-2">
+                    <button
+                        className="px-3 py-1 bg-primary text-white rounded disabled:opacity-60"
+                        disabled={page === 1}
+                        onClick={() => setPage((p) => p - 1)}
+                    >
+                        Prev
+                    </button>
+
+                    <span className="px-3 py-1 rounded bg-secondary">
+                        Page {page} of {totalPages}
+                    </span>
+
+                    <button
+                        className="px-2 py-1 bg-primary text-white rounded disabled:opacity-60"
+                        disabled={page === totalPages}
+                        onClick={() => setPage((p) => p + 1)}
+                    >
+                        Next
+                    </button>
                 </div>
-                <ProductsGrid products={filteredProducts} />
             </main>
         </div >
     )

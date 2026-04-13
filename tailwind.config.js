@@ -19,7 +19,7 @@ export default {
         "on-tertiary-container": "#de480d",
         error: "#ba1a1a",
         "on-error": "#ffffff",
-        background: "#fdfbff",
+        background: "#fbfcff",
         "on-background": "#1a1c1e",
         surface: "#fdfbff",
         "on-surface": "#1a1c1e",
