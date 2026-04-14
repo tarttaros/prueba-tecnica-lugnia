@@ -13,10 +13,6 @@ export default function Footer() {
                 <span className="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
                 <span className="font-manrope text-[10px] font-semibold uppercase tracking-widest">Cart</span>
             </a>
-            <a className="flex flex-col items-center gap-1 text-on-surface/40 active:scale-90 transition-all duration-300 ease-out" href="#">
-                <span className="material-symbols-outlined" data-icon="person">person</span>
-                <span className="font-manrope text-[10px] font-semibold uppercase tracking-widest">Profile</span>
-            </a>
         </div>
     )
 }

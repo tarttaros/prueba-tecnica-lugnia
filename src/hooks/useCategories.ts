@@ -10,5 +10,5 @@ export const useCategories = () => {
       .then(setCategories)
   }, []);
 
-  return { categories, };
+  return { categories };
 };
