@@ -42,7 +42,7 @@ export default function ProductsPage() {
                 .includes(search
                     .toLowerCase());
 
-        const matchedPrice = 
+        const matchedPrice =
             p.price >= filters.minPrice &&
             p.price <= filters.maxPrice
 
@@ -54,7 +54,9 @@ export default function ProductsPage() {
         page * pageSize
     );
 
-    const totalPages = Math.ceil(filteredProducts.length / pageSize);
+    const totalPages = filteredProducts.length === 0
+        ? 0
+        : Math.ceil(filteredProducts.length / pageSize);
 
     return (
         <>
@@ -62,29 +64,37 @@ export default function ProductsPage() {
             {openFilters && <SidebarFilters setOpenFilters={setOpenFilters} onApplyFilters={setFilters} />}
             <div className="font-sans bg-background text-on-surface min-h-screen" >
                 <main className="pt-24 pb-32 px-6 max-w-2xl mx-auto">
-                    <Searchbar onSearch={setSearch} />
-                    <ProductsGrid products={paginatedProducts} />
-                    <div className="flex justify-center space-x-2 mt-2">
-                        <button
-                            className="px-3 py-1 bg-primary text-white rounded disabled:opacity-60"
-                            disabled={page === 1}
-                            onClick={() => setPage((p) => p - 1)}
-                        >
-                            Prev
-                        </button>
+                    {totalPages === 0 ? (
+                        <p className="text-center text-on-surface-variant">
+                            No hay productos
+                        </p>
+                    ) : (
+                        <>
+                            <Searchbar onSearch={setSearch} />
+                            <ProductsGrid products={paginatedProducts} />
+                            <div className="flex justify-center space-x-2 mt-2">
+                                <button
+                                    className="px-3 py-1 bg-primary text-white rounded disabled:opacity-60"
+                                    disabled={page === 1}
+                                    onClick={() => setPage((p) => p - 1)}
+                                >
+                                    Prev
+                                </button>
 
-                        <span className="px-3 py-1 rounded bg-secondary">
-                            Page {page} of {totalPages}
-                        </span>
+                                <span className="px-3 py-1 rounded bg-secondary">
+                                    Page {page} of {totalPages}
+                                </span>
 
-                        <button
-                            className="px-2 py-1 bg-primary text-white rounded disabled:opacity-60"
-                            disabled={page === totalPages}
-                            onClick={() => setPage((p) => p + 1)}
-                        >
-                            Next
-                        </button>
-                    </div>
+                                <button
+                                    className="px-2 py-1 bg-primary text-white rounded disabled:opacity-60"
+                                    disabled={page === totalPages || totalPages === 1}
+                                    onClick={() => setPage((p) => p + 1)}
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </>
+                    )}
                 </main>
             </div >
             <Footer />

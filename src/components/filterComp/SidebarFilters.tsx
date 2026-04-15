@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useCategories } from "../../hooks/useCategories";
 
 type Filters = {
-  category: string;
-  minPrice: number;
-  maxPrice: number;
+    category: string;
+    minPrice: number;
+    maxPrice: number;
 };
 
 type Props = {
@@ -17,14 +17,26 @@ type Props = {
 export default function SidebarFilters({ setOpenFilters, onApplyFilters }: Props) {
     const [minPrice, setMinPrice] = useState(0)
     const [maxPrice, setMaxPrice] = useState(3000)
+    const [inputMin, setInputMin] = useState('');
+    const [inputMax, setInputMax] = useState('');
     const [activeCategory, setActiveCategory] = useState('All Items');
     const { categories = [] } = useCategories() || [];
 
     const handleApply = () => {
+        const hasManualInput = inputMin !== '' || inputMax !== '';
+
+        const finalMin = hasManualInput ? Number(inputMin) || 0 : minPrice;
+        const finalMax = hasManualInput ? Number(inputMax) || 3000 : maxPrice;
+
+        if (finalMin > finalMax) {
+            alert("El mínimo no puede ser mayor al máximo");
+            return;
+        }
+
         onApplyFilters({
             category: activeCategory,
-            minPrice,
-            maxPrice,
+            minPrice: finalMin,
+            maxPrice: finalMax,
         });
 
         setOpenFilters(false);
@@ -33,6 +45,8 @@ export default function SidebarFilters({ setOpenFilters, onApplyFilters }: Props
     const handleClear = () => {
         setMinPrice(0);
         setMaxPrice(3000);
+        setInputMin('')
+        setInputMax('')
         setActiveCategory("All Items");
 
         onApplyFilters({
@@ -85,6 +99,21 @@ export default function SidebarFilters({ setOpenFilters, onApplyFilters }: Props
                             </button>
                         ))}
                     </div>
+                    <input
+                        type="number"
+                        placeholder="Min"
+                        value={inputMin}
+                        onChange={(e) => setInputMin(e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg bg-surface-container text-on-surface"
+                    />
+
+                    <input
+                        type="number"
+                        placeholder="Max"
+                        value={inputMax}
+                        onChange={(e) => setInputMax(e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg bg-surface-container text-on-surface"
+                    />
                 </section>
 
                 {/* CATEGORIES */}

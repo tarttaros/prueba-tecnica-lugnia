@@ -1,10 +1,13 @@
 import type { productWCategory } from "../../types/product.types";
+import { useCart } from "../../hooks/useCart"
 
 type Props = {
     products: productWCategory[];
 };
 
 export default function ProductsGrid({ products }: Props) {
+
+    const { addToCart } = useCart();
     return (
         < div className="grid grid-cols-2 gap-x-4 gap-y-10 " >
             {
@@ -22,7 +25,12 @@ export default function ProductsGrid({ products }: Props) {
                                     e.currentTarget.src = "/noimage.png";
                                 }}
                             />
-                            <button className="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+                            <button className="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center shadow-lg active:scale-90 transition-transform"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    addToCart(product);
+                                }}
+                            >
                                 <span className="material-symbols-outlined text-[20px]">
                                     add
                                 </span>
