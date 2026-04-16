@@ -16,11 +16,6 @@ export default function Navbar({ openFilters, setOpenFilters }: Props) {
                 </button>
                 <span className="font-headline text-xl font-bold tracking-tight text-primary italic">Lumiere</span>
             </div>
-            <div className="flex items-center gap-4">
-                <button className="active:scale-95 transition-transform duration-200 text-on-surface/60">
-                    <span className="material-symbols-outlined text-tertiary" data-icon="shopping_bag">shopping_bag</span>
-                </button>
-            </div>
         </header>
     )
 }

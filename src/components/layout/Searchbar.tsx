@@ -13,7 +13,7 @@ export default function Searchbar({ onSearch }: Props) {
                 </div>
                 <input
                     className="w-full h-14 bg-surface-container-highest border-none rounded-2xl pl-12 pr-4 text-on-surface-variant focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline/60"
-                    placeholder="Search product..."
+                    placeholder="Buscar producto..."
                     type="text"
                     onChange={(e) => onSearch(e.target.value)} />
             </div>

@@ -4,25 +4,25 @@ import type { CartItem } from "../types/cart.types";
 
 export const useCart = () => {
     const [cart, setCart] = useState<CartItem[]>(() => {
-        const storedCart = localStorage.getItem("cart");
-        return storedCart ? JSON.parse(storedCart) : [];
-    });
-
-    // Cargar desde localStorage
-    useEffect(() => {
-        const storedCart = localStorage.getItem("cart");
-        if (storedCart) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
-            setCart(JSON.parse(storedCart));
+        try {
+            const storedCart = localStorage.getItem("cart");
+            return storedCart ? JSON.parse(storedCart) : [];
+        } catch (error) {
+            console.error("Error al leer el carrito:", error);
+            return [];
         }
-    }, []);
+    });
 
     // Guardar en localStorage
     useEffect(() => {
-        localStorage.setItem("cart", JSON.stringify(cart));
+        try {
+            localStorage.setItem("cart", JSON.stringify(cart));
+        } catch (error) {
+            console.error("Error al guardar el carrito:", error);
+        }
     }, [cart]);
 
-    // ➕ Agregar producto
+    // Agregar producto
     const addToCart = (product: product) => {
         setCart((prev) => {
             const exists = prev.find((item) => item.id === product.id);
@@ -47,12 +47,12 @@ export const useCart = () => {
         });
     };
 
-    // ❌ Eliminar producto
+    // Eliminar producto
     const removeFromCart = (id: number) => {
         setCart((prev) => prev.filter((item) => item.id !== id));
     };
 
-    // 🔢 Actualizar cantidad
+    // Actualizar cantidad
     const updateQuantity = (id: number, quantity: number) => {
         if (quantity <= 0) return;
 

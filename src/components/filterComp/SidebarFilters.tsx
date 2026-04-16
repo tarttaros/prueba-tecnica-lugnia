@@ -116,7 +116,7 @@ export default function SidebarFilters({ setOpenFilters, onApplyFilters }: Props
                     />
                 </section>
 
-                {/* CATEGORIES */}
+                {/* Categorias */}
 
                 <div className="flex flex-col gap-2">
                     {categories.map((category) => (

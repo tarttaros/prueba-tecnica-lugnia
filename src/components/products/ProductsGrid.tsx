@@ -1,5 +1,5 @@
 import type { productWCategory } from "../../types/product.types";
-import { useCart } from "../../hooks/useCart"
+import { useCartContext } from "../../hooks/useCartContext";
 
 type Props = {
     products: productWCategory[];
@@ -7,7 +7,7 @@ type Props = {
 
 export default function ProductsGrid({ products }: Props) {
 
-    const { addToCart } = useCart();
+    const { addToCart } = useCartContext();
     return (
         < div className="grid grid-cols-2 gap-x-4 gap-y-10 " >
             {

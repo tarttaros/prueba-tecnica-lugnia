@@ -1,5 +1,7 @@
 import type { product } from "./product.types";
 
+
+//---- Item del carrito -----------------------------------
 export type CartItem = {
     id: number;
     name: string;
@@ -7,6 +9,7 @@ export type CartItem = {
     quantity: number;
 };
 
+//---- Estructura del cartContext(canal)
 export type CartContextType = {
   cart: CartItem[];
   addToCart: (product: product) => void;

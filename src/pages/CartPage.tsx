@@ -1,9 +1,8 @@
 import Footer from "../components/layout/Footer";
-import { useCart } from "../hooks/useCart";
+import { useCartContext } from "../hooks/useCartContext";
 
 export default function CartPage() {
-
-    const { cart, removeFromCart, updateQuantity } = useCart();
+    const { cart, removeFromCart, updateQuantity } = useCartContext();
 
     const subtotal = cart.reduce(
         (acc, item) => acc + item.price * item.quantity,
@@ -18,10 +17,10 @@ export default function CartPage() {
             <>
                 <main className="pt-24 px-6 max-w-2xl mx-auto">
                     <h2 className="text-2xl font-bold text-on-surface">
-                        Your cart is empty
+                        El carro esta vacio.
                     </h2>
                     <p className="text-on-surface-variant mt-2">
-                        Add some products to continue
+                        Añada algun producto para continuar.
                     </p>
                 </main>
                 <Footer />
@@ -35,10 +34,10 @@ export default function CartPage() {
                 {/* HEADER */}
                 <div className="mb-8">
                     <h2 className="text-3xl font-extrabold text-on-surface">
-                        Your Selection
+                        Tú selección.
                     </h2>
                     <p className="text-on-surface-variant text-sm mt-1">
-                        {cart.length} item{cart.length !== 1 ? "s" : ""} in your cart
+                        {cart.length} elemento{cart.length !== 1 ? "s" : ""} en el carro.
                     </p>
                 </div>
 
@@ -49,7 +48,6 @@ export default function CartPage() {
                             key={item.id}
                             className="bg-surface-container-lowest rounded-2xl p-4 flex gap-4 border border-surface-variant/50"
                         >
-                            {/* IMAGE (placeholder porque no tienes image en tu modelo) */}
                             <img
                                 src={`https://picsum.photos/id/${item.id}/300/200`}
                                 alt={item.name}
@@ -79,7 +77,7 @@ export default function CartPage() {
 
                                 {/* BOTTOM */}
                                 <div className="flex justify-between items-end">
-                                    {/* QUANTITY */}
+                                    {/* cantidad */}
                                     <div className="flex items-center bg-surface-container rounded-full px-2 py-1 gap-3">
                                         <button
                                             onClick={() =>
@@ -104,7 +102,7 @@ export default function CartPage() {
                                         </button>
                                     </div>
 
-                                    {/* PRICE */}
+                                    {/* precio */}
                                     <span className="font-bold text-primary">
                                         ${(item.price * item.quantity).toFixed(2)}
                                     </span>
@@ -114,9 +112,9 @@ export default function CartPage() {
                     ))}
                 </section>
 
-                {/* SUMMARY */}
+                {/* resumen */}
                 <section className="mt-12 bg-surface-container-low rounded-3xl p-6 border border-surface-variant/30">
-                    <h4 className="font-bold mb-4">Summary</h4>
+                    <h4 className="font-bold mb-4">Resumen</h4>
 
                     <div className="space-y-3">
                         <div className="flex justify-between text-sm">
@@ -125,8 +123,8 @@ export default function CartPage() {
                         </div>
 
                         <div className="flex justify-between text-sm">
-                            <span>Shipping</span>
-                            <span className="font-bold text-tertiary">Free</span>
+                            <span>Envio</span>
+                            <span className="font-bold text-tertiary">Gratis</span>
                         </div>
 
                         <div className="h-px bg-outline-variant/20 my-2" />
@@ -139,13 +137,13 @@ export default function CartPage() {
                         </div>
                     </div>
 
-                    {/* CHECKOUT */}
+                    {/* pago */}
                     <button className="w-full mt-8 py-4 bg-primary text-on-primary rounded-full font-bold">
-                        Proceed to Checkout
+                        Proceder al pago
                     </button>
 
                     <p className="text-center text-[10px] text-on-surface-variant mt-4">
-                        Secure Checkout
+                        Pago seguro
                     </p>
                 </section>
             </main>

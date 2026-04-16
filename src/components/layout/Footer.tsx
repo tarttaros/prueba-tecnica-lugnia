@@ -1,7 +1,12 @@
 import { useLocation, Link } from "react-router-dom";
+import { useCartContext } from "../../hooks/useCartContext";
 
 export default function Footer() {
     const location = useLocation();
+    const { cart } = useCartContext();
+
+    // total de items sumando cantidades
+    const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
     const isHome = location.pathname === "/";
     const isCart = location.pathname === "/cart";
@@ -27,7 +32,16 @@ export default function Footer() {
                 className={`flex flex-col items-center gap-1 active:scale-90 transition-all duration-300 ease-out ${isCart ? "text-primary" : "text-on-surface/40"
                     }`}
             >
-                <span className="material-symbols-outlined">shopping_cart</span>
+                <div className="relative">
+                    <span className="material-symbols-outlined">shopping_cart</span>
+
+                    {/* BURBUJA */}
+                    {totalItems > 0 && (
+                        <span className="absolute -top-1 -right-1 bg-primary text-on-primary text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                            {totalItems > 99 ? "99+" : totalItems}
+                        </span>
+                    )}
+                </div>
                 <span className="font-manrope text-[10px] font-semibold uppercase tracking-widest">
                     Cart
                 </span>

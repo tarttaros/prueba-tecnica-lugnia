@@ -8,10 +8,10 @@ import Footer from "../components/layout/Footer"
 import SidebarFilters from "../components/filterComp/SidebarFilters"
 
 export default function ProductsPage() {
-    const { products, loading } = useProducts()
+    const { products, loading, error } = useProducts()
+    const pageSize = 8;
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
-    const pageSize = 8;
     const [openFilters, setOpenFilters] = useState<boolean>(false);
     const [filters, setFilters] = useState({
         category: 'All Items',
@@ -29,6 +29,12 @@ export default function ProductsPage() {
     if (loading) {
         return (
             <Loading />
+        )
+    }
+
+    if (error) {
+        return (
+            <>{error}</>
         )
     }
 
@@ -66,7 +72,7 @@ export default function ProductsPage() {
                 <main className="pt-24 pb-32 px-6 max-w-2xl mx-auto">
                     {totalPages === 0 ? (
                         <p className="text-center text-on-surface-variant">
-                            No hay productos
+                            No hay productos.
                         </p>
                     ) : (
                         <>
@@ -78,11 +84,11 @@ export default function ProductsPage() {
                                     disabled={page === 1}
                                     onClick={() => setPage((p) => p - 1)}
                                 >
-                                    Prev
+                                    Anterior
                                 </button>
 
                                 <span className="px-3 py-1 rounded bg-secondary">
-                                    Page {page} of {totalPages}
+                                    Pagina {page} de {totalPages}
                                 </span>
 
                                 <button
@@ -90,7 +96,7 @@ export default function ProductsPage() {
                                     disabled={page === totalPages || totalPages === 1}
                                     onClick={() => setPage((p) => p + 1)}
                                 >
-                                    Next
+                                    Siguiente
                                 </button>
                             </div>
                         </>

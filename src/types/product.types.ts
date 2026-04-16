@@ -11,6 +11,7 @@ export interface product {
   }
 }
 
+//---- Producto con categoria -------------------------------------------
 export interface productWCategory {
   id: number
   name: string
