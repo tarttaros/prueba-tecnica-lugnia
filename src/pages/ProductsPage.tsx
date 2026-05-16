@@ -70,7 +70,7 @@ export default function ProductsPage() {
             {openFilters && <SidebarFilters setOpenFilters={setOpenFilters} onApplyFilters={setFilters} />}
             <div className="font-sans bg-background text-on-surface min-h-screen" >
                 <main className="pt-24 pb-32 px-6 max-w-2xl mx-auto">
-                    {totalPages === 0 ? (
+                    {totalPages === 0 && search === "" ? (
                         <p className="text-center text-on-surface-variant">
                             No hay productos.
                         </p>

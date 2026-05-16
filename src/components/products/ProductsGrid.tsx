@@ -11,10 +11,10 @@ export default function ProductsGrid({ products }: Props) {
     return (
         < div className="grid grid-cols-2 gap-x-4 gap-y-10 " >
             {
-                products.map((product, index) => (
+                products.map((product) => (
                     <div
                         key={product.id}
-                        className={`flex flex-col group ${index % 2 === 1 ? "mt-6" : ""}`}
+                        className={`flex flex-col group`}
                     >
                         <div className="relative aspect-[3/4] bg-surface-container-lowest rounded-2xl overflow-hidden mb-4 transition-all duration-300 group-hover:shadow-[0_12px_32px_-4px_rgba(0,33,71,0.12)]">
                             <img
